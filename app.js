@@ -20,7 +20,7 @@ import { emailRegExp } from './constants/constants.js';
 const __dirname = path.resolve();
 const app = express();
 
-const { PORT = 3000, MONGO_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
+const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
