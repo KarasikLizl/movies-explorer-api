@@ -69,11 +69,11 @@ export const login = (req, res, next) => {
 };
 
 export const updateProfile = (req, res, next) => {
-  const { name } = req.body;
+  const { name, email } = req.body;
   userSchema
     .findByIdAndUpdate(
       req.user._id,
-      { name },
+      { name, email },
       { new: true, runValidators: true },
     )
     .orFail(() => { next(new NotFoundError('Пользователь не найден')); })
