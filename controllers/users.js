@@ -83,8 +83,8 @@ export const updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Введены некорректные данные'));
-      } else {
-        next(err);
-      }
+      } else if (err.code === MONGO_DUPLICATE_ERROR) {
+        next(new ConflictError('Такой email уже существует'));
+      } else next(err);
     });
 };

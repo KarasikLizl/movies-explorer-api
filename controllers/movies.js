@@ -62,13 +62,14 @@ export const deleteMovie = (req, res, next) => {
   movieSchema
     .findById(req.params.movieId)
     .orFail(() => {
-      throw new Error('IncorrectId');
+      throw new NotFoundError('Фильм по этому id не найден');
     })
     .then((movie) => {
       if (movie.owner._id.toString() === req.user._id) {
         movieSchema.deleteOne(movie).then(() => {
           res.status(OK).send({ message: 'Фильма удален' });
-        });
+        })
+          .catch(next);
       } else {
         throw new ForbiddenError('Вы не можете удалить этот фильм');
       }
@@ -76,8 +77,6 @@ export const deleteMovie = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Фильм не найден'));
-      } else if (err.message === 'IncorrectId') {
-        next(new NotFoundError('Фильм по этому id не найден'));
       } else {
         next(err);
       }
