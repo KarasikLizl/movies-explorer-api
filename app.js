@@ -1,7 +1,4 @@
-/* eslint-disable import/first */
 import dotenv from 'dotenv';
-
-dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
@@ -17,6 +14,8 @@ import errorHandler from './middlewares/error-handler.js';
 import { requestLogger, errorLogger } from './middlewares/logger.js';
 import { emailRegExp } from './constants/constants.js';
 
+dotenv.config();
+
 const __dirname = path.resolve();
 const app = express();
 
@@ -29,19 +28,27 @@ app.use(cors());
 // Request logger
 app.use(requestLogger);
 //  Not protected
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email().regex(emailRegExp),
-    password: Joi.string().required().min(8),
-    name: Joi.string().required().min(2).max(30),
+app.post(
+  '/signup',
+  celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email().regex(emailRegExp),
+      password: Joi.string().required().min(8),
+      name: Joi.string().required().min(2).max(30),
+    }),
   }),
-}), createUser);
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email().regex(emailRegExp),
-    password: Joi.string().required().min(8),
+  createUser,
+);
+app.post(
+  '/signin',
+  celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email().regex(emailRegExp),
+      password: Joi.string().required().min(8),
+    }),
   }),
-}), login);
+  login,
+);
 
 app.use(auth);
 //  Protected
