@@ -68,7 +68,7 @@ export const deleteMovie = (req, res, next) => {
       if (movie.owner._id.toString() === req.user._id) {
         movieSchema.deleteOne(movie)
           .then(() => {
-            res.status(OK).send({ message: 'Фильма удален' });
+            res.status(OK).send({ message: 'Фильм удален' });
           })
           .catch(next);
       } else {
