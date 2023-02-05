@@ -66,9 +66,10 @@ export const deleteMovie = (req, res, next) => {
     })
     .then((movie) => {
       if (movie.owner._id.toString() === req.user._id) {
-        movieSchema.deleteOne(movie).then(() => {
-          res.status(OK).send({ message: 'Фильма удален' });
-        })
+        movieSchema.deleteOne(movie)
+          .then(() => {
+            res.status(OK).send({ message: 'Фильма удален' });
+          })
           .catch(next);
       } else {
         throw new ForbiddenError('Вы не можете удалить этот фильм');
