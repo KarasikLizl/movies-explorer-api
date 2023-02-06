@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(cors());
 // Request logger
 app.use(requestLogger);
-// Request logger
+// Request limiter
 app.use(limiter);
 //  Not protected
 app.post(
