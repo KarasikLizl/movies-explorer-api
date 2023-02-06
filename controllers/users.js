@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import userSchema from '../models/user.js';
 import { MONGO_DUPLICATE_ERROR, OK } from '../constants/errors.js';
 import { SOLT_ROUNDS } from '../constants/constants.js';
-
 import BadRequestError from '../errors/bad_req.js';
 import NotFoundError from '../errors/not_found.js';
 import ConflictError from '../errors/conflict.js';

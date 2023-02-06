@@ -5,7 +5,6 @@ import path from 'path';
 import { celebrate, Joi, errors } from 'celebrate';
 import cors from 'cors';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
 import usersRoutes from './routes/users.js';
 import moviesRoutes from './routes/movies.js';
 import notFoundRouter from './routes/notFoud.js';
@@ -13,19 +12,13 @@ import { createUser, login } from './controllers/users.js';
 import auth from './middlewares/auth.js';
 import errorHandler from './middlewares/error-handler.js';
 import { requestLogger, errorLogger } from './middlewares/logger.js';
-import { emailRegExp } from './constants/constants.js';
+import { emailRegExp, limiter } from './constants/constants.js';
 
 dotenv.config();
 
 const __dirname = path.resolve();
 const app = express();
 const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
