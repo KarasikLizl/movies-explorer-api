@@ -7,7 +7,7 @@ import ForbiddenError from '../errors/forbidden.js';
 
 export const getMovies = (req, res, next) => {
   movieSchema
-    .find({})
+    .find({ owner: req.user._id })
     .then((movies) => {
       res.status(OK).send(movies);
     })
